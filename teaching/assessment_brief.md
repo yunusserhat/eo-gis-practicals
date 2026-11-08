@@ -15,8 +15,8 @@ surfaces from Sentinel-1 and Sentinel-2 data, test the map honestly and relate i
 - **Study area and data.** The town, the bounding box, the season and the scenes you used, with a short justification.
 - **Methods.** How you built the composite, the features you used and how you created training data.
 - **Results.** The map, the confusion matrix and the share of each class in the town.
-- **Validation.** Accuracy under a random split and under spatial blocks of at least 1 km, and an explanation of any
-  gap between them.
+- **Validation.** Accuracy under a random split and under spatial blocks, either 1 km grid squares or H3 hexagons at
+  resolution 8 or coarser, and an explanation of any gap between them.
 - **Greenspace overlay.** A table that summarises your classes within OS Open Greenspace site types, with a short
   interpretation.
 - **Limitations.** At least two limitations of the reference labels or the method, and how you would address them.

@@ -39,6 +39,8 @@
 # - **Make.** At the end you apply the workflow to a new place on your own.
 
 # %%
+# Copyright (C) 2026 Yunus Serhat Bıçakçı
+# SPDX-License-Identifier: GPL-3.0-or-later
 import warnings
 import urllib.request
 import zipfile

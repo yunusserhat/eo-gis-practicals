@@ -68,24 +68,25 @@ Results can shift slightly if the Planetary Computer reprocesses scenes or if yo
 | --- | --- |
 | 0 to 10 | Recap of Lab 1 and the question of the day |
 | 10 to 25 | Section 2. Moran's I for NDVI |
-| 25 to 50 | Sections 3 and 4. Three validation schemes and the coordinates only model |
-| 50 to 70 | Section 5. Block size experiment |
+| 25 to 55 | Sections 3 and 4. Four validation schemes, the H3 map and the coordinates only model |
+| 55 to 70 | Section 5. Block size experiment with squares and hexagons |
 | 70 to 90 | Section 6. Where the errors are |
 | 90 to 110 | Optional AlphaEarth extension, demonstrated or run by MSc students |
 | 110 to 120 | Reflection and introduction of the assessment |
 
 ### Expected results (run of 8 November 2026)
 
-| Model | Random pixels | By square | 1 km blocks |
-| --- | --- | --- | --- |
-| Sentinel-1 and Sentinel-2 | 0.981 | 0.963 | 0.957 |
-| Coordinates only | 1.000 | 0.631 | 0.604 |
+| Model | Random pixels | By square | 1 km blocks | H3 hexagons, res. 8 |
+| --- | --- | --- | --- | --- |
+| Sentinel-1 and Sentinel-2 | 0.981 | 0.963 | 0.957 | 0.958 |
+| Coordinates only | 1.000 | 0.631 | 0.604 | 0.653 |
 
 - Moran's I for NDVI at the training pixels is 0.94 (pseudo p-value 0.001).
-- As blocks grow from 250 m to 4 km, the coordinates only model falls from about 0.70 to 0.55, while the Sentinel model
-  stays near 0.96.
+- As square blocks grow from 250 m to 4 km, the coordinates only model falls from about 0.70 to 0.55. With hexagons
+  from resolution 10 to 6 (widths of about 120 m to 6 km) it falls from about 0.78 to 0.52. The Sentinel model stays
+  near 0.96 throughout. The 140 training squares fall into 84 hexagons at resolution 8.
 - Under 1 km blocks, 32 of the 140 squares contain at least one error. Moran's I for the square error rates is 0.05
-  (pseudo p-value 0.08), so there is no clear clustering at this scale. Green squares carry the highest error rate.
+  (pseudo p-value 0.09), so there is no clear clustering at this scale. Green squares carry the highest error rate.
 - With Earth Engine, the 2025 AlphaEarth embeddings reach 0.980 under 1 km blocks, against 0.957 for the Sentinel
   bands and indices and 0.981 for both together.
 
@@ -99,6 +100,11 @@ Results can shift slightly if the Planetary Computer reprocesses scenes or if yo
 - **Why the Sentinel model barely drops.** Sealed, green and water surfaces differ strongly in their spectra, so the
   model generalises well. The gap grows with harder classes, sparser labels or regression targets, as in the PE&RS
   study behind this lab.
+- **Squares or hexagons.** In a hexagonal grid every neighbour shares an edge and lies at the same distance from the
+  centre, while square blocks also touch at corners. H3 is hierarchical and covers the globe in one system, which helps
+  when a study crosses national grids. Resolution 8 hexagons are about a quarter smaller than 1 km squares (0.74
+  against 1 km²), which is one reason why the coordinates only model scores slightly higher under them. Students should
+  compare grids of similar size before drawing conclusions about shape.
 - **AlphaEarth.** Ask why the embeddings might score higher. They summarise a whole year of observations from several
   sensors, while our features come from one summer. Students should also ask whether embeddings and WorldCover share
   information, which would make the comparison easier than it looks.
@@ -110,6 +116,8 @@ Results can shift slightly if the Planetary Computer reprocesses scenes or if yo
   ones.
 - **Messages about `apszKnownConfigOptions` when importing rasterio.** GDAL prints these under some system locales,
   for example Turkish. Start Jupyter with `LANG=C.UTF-8` and they disappear. They do not affect the results.
+- **No module named h3.** Install it with `pip install h3`. The labs need version 4 or later, because older versions
+  use different function names.
 - **GroupKFold fails.** Each scheme needs at least five groups. Very large blocks over a small study area can leave
   fewer groups than folds.
 - **Earth Engine errors.** Check that `earthengine authenticate` has been run and that `EE_PROJECT` names a Cloud

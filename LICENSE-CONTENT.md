@@ -6,5 +6,5 @@ appropriate credit. The full licence is at https://creativecommons.org/licenses/
 
 Suggested credit. Bıçakçı, Y. S. (2026). Earth Observation and GIS Practicals. https://github.com/yunusserhat/eo-gis-practicals
 
-The code is licensed separately under the MIT licence in `LICENSE`. Data downloaded by the notebooks keep their own
+The code is licensed separately under the GNU General Public License, version 3 or any later version, in `LICENSE`. Data downloaded by the notebooks keep their own
 licences, which are listed in the README.

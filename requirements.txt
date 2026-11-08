@@ -11,6 +11,7 @@ pystac-client>=0.8
 planetary-computer>=1.0
 odc-stac>=0.3.10
 scikit-learn>=1.5
+h3>=4.1
 matplotlib>=3.9
 libpysal>=4.12
 esda>=2.6

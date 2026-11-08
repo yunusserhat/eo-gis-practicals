@@ -10,7 +10,7 @@ optical fusion approach in Bıçakçı (2026a). Lab 2 follows the spatially bloc
 | | Lab 1 | Lab 2 |
 | --- | --- | --- |
 | Notebook | [Sealed and green surfaces around Stirling](notebooks/lab1_sealed_and_green_surfaces.ipynb) | [Why random splits flatter your map](notebooks/lab2_why_random_splits_flatter_your_map.ipynb) |
-| Skills | STAC search, cloud masking, spectral indices, radar backscatter, random forest, confusion matrix, GeoTIFF export, zonal summary with OS Open Greenspace | Spatial autocorrelation, Moran's I, grouped and spatially blocked cross-validation, error mapping, optional AlphaEarth embeddings |
+| Skills | STAC search, cloud masking, spectral indices, radar backscatter, random forest, confusion matrix, GeoTIFF export, zonal summary with OS Open Greenspace | Spatial autocorrelation, Moran's I, grouped cross-validation with square National Grid blocks and H3 hexagons, error mapping, optional AlphaEarth embeddings |
 | Time | About two hours | About two hours |
 | Level | Honours (SCQF level 10) or MSc (SCQF level 11) | Honours (SCQF level 10) or MSc (SCQF level 11) |
 
@@ -31,11 +31,14 @@ Each section follows the same five steps, adapted from the PRIMM approach to tea
 - In Lab 1 a random forest on eleven Sentinel-1 and Sentinel-2 features reaches 0.977 overall accuracy on a random
   30% test set. About 81% of the study area maps as green, 15% as sealed and 4% as water. Golf courses and public parks
   look almost entirely green from space, while tennis courts and sports facilities look about one third sealed.
-- In Lab 2 the same model scores 0.957 when whole 1 km blocks are held out. A model that knows only the coordinates of
-  each pixel, and nothing the satellite saw, scores 1.000 under a random split and 0.604 under 1 km blocks. Moran's I
-  for NDVI at the training pixels is 0.94, which explains the gap.
+- In Lab 2 the same model scores 0.957 when whole 1 km blocks are held out and 0.958 with H3 hexagons of similar size
+  (resolution 8, 0.74 km² on average). A model that knows only the coordinates of each pixel, and nothing the
+  satellite saw, scores 1.000 under a random split, 0.604 under 1 km blocks and 0.653 under H3 hexagons. Moran's I for
+  NDVI at the training pixels is 0.94, which explains the gap.
 
-![The same models tested in three ways](figures/lab2_validation_schemes.png)
+![The same models tested in four ways](figures/lab2_validation_schemes.png)
+
+![H3 resolution 8 hexagons used as test groups in Lab 2](figures/lab2_h3_folds.png)
 
 ## Getting started
 
@@ -99,9 +102,10 @@ environment.yml   conda environment
 
 ## Licence
 
-The code is released under the MIT licence (see `LICENSE`). The text, notebook narrative, figures and teaching
-materials are released under CC BY 4.0 (see `LICENSE-CONTENT.md`). Downloaded data keep their own licences, listed
-above.
+The code is released under the GNU General Public License, version 3 or any later version (see `LICENSE`). Anyone
+may use, study, share and change it, and shared or changed versions must stay under the same licence. The text,
+notebook narrative, figures and teaching materials are released under CC BY 4.0 (see `LICENSE-CONTENT.md`).
+Downloaded data keep their own licences, listed above.
 
 ## Citation
 
