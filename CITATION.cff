@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use these practicals in your teaching, please cite them as below."
+title: "Earth Observation and GIS Practicals. Sealed and green surfaces around Stirling"
+type: software
+authors:
+  - family-names: "Bıçakçı"
+    given-names: "Yunus Serhat"
+    orcid: "https://orcid.org/0000-0002-7288-9959"
+    affiliation: "Marmara University"
+version: "1.0.0"
+date-released: "2026-11-08"
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/yunusserhat/eo-gis-practicals"
+keywords:
+  - remote sensing
+  - GIS
+  - Sentinel-2
+  - Sentinel-1
+  - spatial cross-validation
+  - teaching

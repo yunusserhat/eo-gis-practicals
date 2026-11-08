@@ -1,0 +1,22 @@
+name: eo-gis-practicals
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy>=1.26
+  - pandas>=2.1
+  - geopandas>=1.0
+  - pyogrio>=0.9
+  - shapely>=2.0
+  - rasterio>=1.4
+  - xarray>=2024.6
+  - rioxarray>=0.17
+  - pystac-client>=0.8
+  - planetary-computer>=1.0
+  - odc-stac>=0.3.10
+  - scikit-learn>=1.5
+  - matplotlib>=3.9
+  - libpysal>=4.12
+  - esda>=2.6
+  - jupyterlab>=4.2
+  - earthengine-api>=1.4
