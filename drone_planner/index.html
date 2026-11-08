@@ -1,0 +1,143 @@
+<!doctype html>
+<!-- Copyright (C) 2026 Yunus Serhat Bıçakçı. Code GPL-3.0-or-later, text CC BY 4.0. -->
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drone Survey Planner</title>
+  <meta name="description" content="A teaching tool for planning drone mapping flights over real LiDAR terrain around Stirling.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Drone survey planner</h1>
+    <p>Plan a mapping flight over real terrain around Stirling. See how flying height, camera, overlap and the shape of
+      the ground decide image resolution, flight time and safety.</p>
+  </header>
+
+  <main>
+    <section id="controls" aria-label="Flight settings">
+      <h2>Site</h2>
+      <label for="site">Survey site</label>
+      <select id="site"></select>
+      <p id="site-note" class="note"></p>
+
+      <h2>Camera</h2>
+      <label for="camera">Camera</label>
+      <select id="camera"></select>
+      <div class="grid2">
+        <label>Sensor width (mm)<input id="sensorW" type="number" step="0.1" min="1"></label>
+        <label>Sensor height (mm)<input id="sensorH" type="number" step="0.1" min="1"></label>
+        <label>Focal length (mm)<input id="focal" type="number" step="0.01" min="1"></label>
+        <label>Image width (px)<input id="imgW" type="number" step="1" min="100"></label>
+        <label>Image height (px)<input id="imgH" type="number" step="1" min="100"></label>
+        <label>Fastest photo interval (s)<input id="minInterval" type="number" step="0.1" min="0.1"></label>
+      </div>
+
+      <h2>Flight</h2>
+      <label for="height">Height above take-off <output id="height-out"></output></label>
+      <input id="height" type="range" min="20" max="150" step="5" value="80">
+      <fieldset>
+        <legend>Altitude mode</legend>
+        <label class="inline"><input type="radio" name="mode" value="constant" checked> Constant height above take-off</label>
+        <label class="inline"><input type="radio" name="mode" value="terrain"> Follow the terrain</label>
+      </fieldset>
+      <label for="front">Front overlap <output id="front-out"></output></label>
+      <input id="front" type="range" min="50" max="90" step="5" value="75">
+      <label for="side">Side overlap <output id="side-out"></output></label>
+      <input id="side" type="range" min="40" max="85" step="5" value="65">
+      <label for="speed">Speed <output id="speed-out"></output></label>
+      <input id="speed" type="range" min="2" max="15" step="0.5" value="8">
+      <label for="shutter">Shutter speed</label>
+      <select id="shutter">
+        <option value="0.002">1/500 s</option>
+        <option value="0.001" selected>1/1000 s</option>
+        <option value="0.0005">1/2000 s</option>
+      </select>
+      <label for="heading">Direction of flight lines <output id="heading-out"></output></label>
+      <input id="heading" type="range" min="0" max="175" step="5" value="90">
+      <label for="endurance">Battery endurance <output id="endurance-out"></output></label>
+      <input id="endurance" type="range" min="15" max="45" step="1" value="30">
+
+      <h2>Map layer</h2>
+      <select id="overlay">
+        <option value="gsd" selected>Image resolution and safety</option>
+        <option value="hillshade">Terrain (hillshade)</option>
+        <option value="none">None</option>
+      </select>
+    </section>
+
+    <section id="view">
+      <div id="map" role="img" aria-label="Map of the survey site with flight lines"></div>
+      <div id="legend"></div>
+      <h2 id="profile-title">Profile along the flight line over the highest ground</h2>
+      <svg id="profile" viewBox="0 0 720 240" role="img" aria-label="Terrain and drone height along one flight line"></svg>
+    </section>
+
+    <section id="results" aria-live="polite">
+      <h2>The plan</h2>
+      <table id="results-table"></table>
+      <h2>Checks</h2>
+      <ul id="warnings"></ul>
+    </section>
+
+    <section id="teach">
+      <details open>
+        <summary>Try this</summary>
+        <ol>
+          <li><strong>Predict.</strong> Halve the flying height at Cambuskenneth. Write down what you expect for the
+            image resolution, the number of photos and the flight time, then try it.</li>
+          <li><strong>Investigate.</strong> Choose Abbey Craig with a constant height of 80 m above take-off. Where does
+            the drone come too close to the ground? Look at the map and the profile, then switch to terrain following.</li>
+          <li><strong>Investigate.</strong> At Abbey Craig, how does the side overlap over the crag compare with the
+            overlap you set? What would that mean for the finished map?</li>
+          <li><strong>Modify.</strong> What is the finest pixel size you can reach at Cambuskenneth on a single battery?
+            Which other settings did you have to give up for it?</li>
+          <li><strong>Make.</strong> Plan a survey to map riverbank erosion at Cambuskenneth twice a year. Justify your
+            image resolution, overlaps and direction of flight lines in a short paragraph.</li>
+        </ol>
+      </details>
+      <details>
+        <summary>How the numbers are worked out</summary>
+        <ul>
+          <li><strong>Image resolution.</strong> Ground sampling distance (GSD) = height above ground × sensor width ÷
+            (focal length × image width). Double the height and each pixel covers twice as much ground.</li>
+          <li><strong>Footprint.</strong> One photo covers height × sensor width ÷ focal length across the flight line,
+            and height × sensor height ÷ focal length along it.</li>
+          <li><strong>Spacing.</strong> Flight lines sit one footprint width × (1 minus side overlap) apart. Photos are
+            taken every footprint length × (1 minus front overlap).</li>
+          <li><strong>Motion blur.</strong> Blur in pixels = speed × shutter time ÷ GSD. Keep it below about half a
+            pixel for sharp maps.</li>
+          <li><strong>Terrain.</strong> With a constant height above take-off, the height above the ground changes with
+            the terrain. Over high ground the pixels get smaller, the footprints shrink and the overlap falls. Over low
+            ground the drone may climb above the legal limit.</li>
+          <li><strong>Flight time.</strong> Distance along all lines and turns, plus the trip from and back to the
+            take-off point, divided by the speed, with 6 s for each turn and time to climb and descend. Batteries are
+            counted at 80% of their endurance.</li>
+        </ul>
+      </details>
+      <details>
+        <summary>Before a real flight</summary>
+        <p>This page is a teaching tool. A real survey needs proper flight planning software, a site risk assessment,
+          the landowner's permission and compliance with the
+          <a href="https://www.caa.co.uk/drones/" target="_blank" rel="noopener">CAA Drone Code</a>. In the UK open
+          category the drone must stay within 120 m of the ground and in sight of the pilot. Many sites, such as
+          historic monuments, need extra permission.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <p>Terrain. LiDAR for Scotland Phase 4 digital terrain model (50 cm, 2017 to 2019), averaged to 5 m, from the
+      Scottish Remote Sensing Portal under the Open Government Licence. Crown copyright Scottish Government and Fugro
+      (2020). Base map © OpenStreetMap contributors.</p>
+    <p>Part of the <a href="https://github.com/yunusserhat/eo-gis-practicals">Earth Observation and GIS Practicals</a>
+      by Yunus Serhat Bıçakçı. Code under GPL-3.0-or-later, text under CC BY 4.0.</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="terrain.js"></script>
+  <script src="planner.js"></script>
+</body>
+</html>

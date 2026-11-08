@@ -112,6 +112,22 @@ Results can shift slightly if the Planetary Computer reprocesses scenes or if yo
   sensors, while our features come from one summer. Students should also ask whether embeddings and WorldCover share
   information, which would make the comparison easier than it looks.
 
+## Drone survey planner
+
+The page in `drone_planner/` suits a 20 to 30 minute activity before a field course, or a short practical on its own.
+It needs only a browser.
+
+- **Suggested sequence.** Start at Cambuskenneth, where the ground is flat, so students first see how height, overlap
+  and speed set the pixel size, the number of photos and the flight time. Then move to Abbey Craig with a constant
+  height of 80 m above take-off, where the drone would hit the crag. Switch to terrain following and discuss why.
+- **What students should notice.** Halving the height halves the pixel size but roughly doubles the number of lines
+  and the flight time. Over the crag the footprint shrinks, so the side overlap falls and gaps appear. Over low ground
+  a constant height can break the 120 m limit.
+- **The numbers.** Pixel size, footprints, spacings, photo counts and flight times follow the formulas listed on the
+  page. Turns, climbs and descents use simple fixed allowances, so real flight planning software will differ a little.
+- **Caveat.** The page teaches planning. It does not replace flight planning software, a site risk assessment, the
+  landowner's permission or the CAA Drone Code.
+
 ## Common problems
 
 - **Downloads fail or time out.** Run the cell again. The Planetary Computer occasionally refuses a request.

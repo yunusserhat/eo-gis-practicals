@@ -7,7 +7,7 @@ authors:
     given-names: "Yunus Serhat"
     orcid: "https://orcid.org/0000-0002-7288-9959"
     affiliation: "Marmara University"
-version: "1.1.0"
+version: "1.2.0"
 date-released: "2026-11-08"
 license:
   - GPL-3.0-or-later

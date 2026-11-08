@@ -1,0 +1,66 @@
+/* Copyright (C) 2026 Yunus Serhat Bıçakçı. GPL-3.0-or-later. */
+:root {
+  --ink: #1f2933;
+  --muted: #5f6b76;
+  --line: #d9dee3;
+  --panel: #f6f8f9;
+  --accent: #1b7f6a;
+  --warn: #b03a2e;
+  --ok: #2f7d32;
+  --bg: #ffffff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.45;
+}
+header { padding: 18px 24px 8px; border-bottom: 1px solid var(--line); }
+header h1 { margin: 0 0 4px; font-size: 1.5rem; }
+header p { margin: 0 0 8px; color: var(--muted); max-width: 70ch; }
+main {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 330px;
+  grid-template-areas: "controls view results" "teach teach teach";
+  gap: 16px;
+  padding: 16px 24px;
+}
+#controls { grid-area: controls; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+#view { grid-area: view; min-width: 0; }
+#results { grid-area: results; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+#teach { grid-area: teach; }
+h2 { font-size: 0.95rem; margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+#controls h2:first-child, #results h2:first-child { margin-top: 2px; }
+label { display: block; font-size: 0.88rem; margin: 6px 0 2px; }
+label.inline { display: flex; gap: 6px; align-items: center; margin: 3px 0; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+select, input[type="number"] { width: 100%; padding: 4px 6px; border: 1px solid var(--line); border-radius: 5px; font: inherit; font-size: 0.88rem; background: #fff; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.grid2 label { font-size: 0.78rem; color: var(--muted); }
+fieldset { border: 1px solid var(--line); border-radius: 6px; margin: 8px 0; padding: 4px 10px 6px; }
+legend { font-size: 0.85rem; color: var(--muted); }
+output { font-weight: 600; color: var(--accent); float: right; }
+.note { font-size: 0.82rem; color: var(--muted); margin: 4px 0 0; }
+#map { height: 470px; border: 1px solid var(--line); border-radius: 8px; }
+#legend { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; font-size: 0.8rem; color: var(--muted); margin: 6px 2px 0; min-height: 22px; }
+.swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(0,0,0,0.15); }
+.ramp { display: inline-block; width: 120px; height: 12px; border-radius: 3px; vertical-align: middle; margin: 0 4px; border: 1px solid rgba(0,0,0,0.15); }
+#profile { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+#results-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+#results-table td { padding: 4px 2px; border-bottom: 1px solid var(--line); vertical-align: top; }
+#results-table td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
+#warnings { padding-left: 18px; margin: 4px 0; font-size: 0.86rem; }
+#warnings li { margin: 4px 0; }
+#warnings li.warn { color: var(--warn); }
+#warnings li.ok { color: var(--ok); list-style: "✓  "; }
+details { border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; margin-bottom: 10px; background: #fff; }
+summary { cursor: pointer; font-weight: 600; }
+details li, details p { max-width: 95ch; font-size: 0.92rem; }
+footer { padding: 10px 24px 24px; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); }
+footer a, details a { color: var(--accent); }
+@media (max-width: 1100px) {
+  main { grid-template-columns: 1fr; grid-template-areas: "view" "controls" "results" "teach"; }
+  #map { height: 380px; }
+}

@@ -17,6 +17,20 @@ optical fusion approach in Bıçakçı (2026a). Lab 2 follows the spatially bloc
 
 ![Map of sealed, green and water surfaces around Stirling made in Lab 1](figures/lab1_class_map.png)
 
+## Drone survey planner
+
+An interactive page for planning drone mapping flights over LiDAR terrain at three sites around Stirling, namely the
+River Forth floodplain at Cambuskenneth, Airthrey Loch and the university campus, and Abbey Craig with the Wallace
+Monument. Students change the flying height, camera, overlaps, speed and direction of flight lines and see the pixel
+size, the number of photos, the flight time, the batteries needed and where the drone would come too close to the
+ground or climb above the 120 m limit of the UK open category. A profile shows the terrain under the flight line that
+crosses the highest ground, and short tasks follow the same Predict, Investigate, Modify and Make steps as the labs.
+
+Open `drone_planner/index.html` in a browser, or use the online version once GitHub Pages is enabled for this
+repository. The terrain is prepared by `tools/prepare_drone_terrain.py` from the LiDAR for Scotland Phase 4 model.
+
+![The drone survey planner at Abbey Craig, where a constant height above take-off brings the drone too close to the crag](figures/drone_planner.jpg)
+
 ## How the labs teach
 
 Each section follows the same five steps, adapted from the PRIMM approach to teaching programming.
@@ -77,6 +91,8 @@ notebooks/        the two executed notebooks
 src_notebooks/    the same notebooks as plain Python files (jupytext percent format), easy to read and compare
 teaching/         instructor notes, an assessment brief and a marking rubric
 lab1_outputs/     saved Lab 1 outputs, which Lab 2 downloads when it runs on its own
+drone_planner/    the drone survey planner, a static web page
+tools/            script that prepares the planner's terrain from LiDAR for Scotland
 figures/          figures saved by the notebooks
 requirements.txt  pip environment
 environment.yml   conda environment
@@ -96,6 +112,8 @@ environment.yml   conda environment
   Planetary Computer. Contains modified Copernicus Sentinel data (2025).
 - ESA WorldCover 10 m 2021 v200 (Zanaga et al., 2022), CC BY 4.0.
 - OS Open Greenspace. Contains OS data © Crown copyright and database rights 2026, used under the OS OpenData licence.
+- LiDAR for Scotland Phase 4 digital terrain model, from the Scottish Remote Sensing Portal under the Open Government
+  Licence. Crown copyright Scottish Government and Fugro (2020). Base map in the planner © OpenStreetMap contributors.
 - Optional. Google Satellite Embedding dataset (AlphaEarth Foundations) in Google Earth Engine, used under its terms
   of use.
 
