@@ -129,6 +129,12 @@ environment.yml   conda environment
   phylogenetic structure. *Ecography*, 40(8), 913–929. https://doi.org/10.1111/ecog.02881
 - Zanaga, D., et al. (2022). *ESA WorldCover 10 m 2021 v200*. Zenodo. https://doi.org/10.5281/zenodo.7254221
 
+## How these materials were made
+
+I designed these practicals and the drone survey planner from my own research and teaching, and I used AI coding
+assistants to help write and test the code and text. All results can be rerun from open data with the notebooks and
+scripts in this repository.
+
 ## Licence
 
 The code is released under the GNU General Public License, version 3 or any later version (see `LICENSE`). Anyone
