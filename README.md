@@ -1,8 +1,8 @@
 # Earth Observation and GIS Practicals
 
 Two open practicals that teach students to map sealed and green surfaces from free satellite data and to test such
-maps honestly. Both use Stirling and the Forth Valley in Scotland as the study area. They run on an ordinary laptop,
-use open data and need no accounts.
+maps honestly. Both use Stirling and the Forth Valley in Scotland as the study area and rely only on open data. They
+run on an ordinary laptop with no accounts at all, or in Google Colab with a Google account.
 
 The practicals turn two of my research papers into teaching material. Lab 1 is a simplified version of the radar and
 optical fusion approach in Bıçakçı (2026a). Lab 2 follows the spatially blocked validation design of Bıçakçı (2026b).
@@ -13,6 +13,7 @@ optical fusion approach in Bıçakçı (2026a). Lab 2 follows the spatially bloc
 | Skills | STAC search, cloud masking, spectral indices, radar backscatter, random forest, confusion matrix, GeoTIFF export, zonal summary with OS Open Greenspace | Spatial autocorrelation, Moran's I, grouped cross-validation with square National Grid blocks and H3 hexagons, error mapping, optional AlphaEarth embeddings |
 | Time | About two hours | About two hours |
 | Level | Honours (SCQF level 10) or MSc (SCQF level 11) | Honours (SCQF level 10) or MSc (SCQF level 11) |
+| Colab | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yunusserhat/eo-gis-practicals/blob/main/notebooks/lab1_sealed_and_green_surfaces.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yunusserhat/eo-gis-practicals/blob/main/notebooks/lab2_why_random_splits_flatter_your_map.ipynb) |
 
 ![Map of sealed, green and water surfaces around Stirling made in Lab 1](figures/lab1_class_map.png)
 
@@ -42,6 +43,15 @@ Each section follows the same five steps, adapted from the PRIMM approach to tea
 
 ## Getting started
 
+### In Google Colab
+
+Click the Colab badge of a lab in the table above. The first code cell installs the few packages that Colab lacks,
+which takes about a minute, and the rest runs unchanged. Lab 2 can be opened on its own. When it cannot find a local
+copy of the Lab 1 outputs, it downloads the saved ones from `lab1_outputs/`. For the optional AlphaEarth section, run
+`os.environ["EE_PROJECT"] = "your-project"` in a new cell first. Colab then asks you to authorise Earth Engine.
+
+### On your own computer
+
 ```bash
 git clone https://github.com/yunusserhat/eo-gis-practicals.git
 cd eo-gis-practicals
@@ -66,6 +76,7 @@ project. Set the environment variable `EE_PROJECT` to the project before startin
 notebooks/        the two executed notebooks
 src_notebooks/    the same notebooks as plain Python files (jupytext percent format), easy to read and compare
 teaching/         instructor notes, an assessment brief and a marking rubric
+lab1_outputs/     saved Lab 1 outputs, which Lab 2 downloads when it runs on its own
 figures/          figures saved by the notebooks
 requirements.txt  pip environment
 environment.yml   conda environment

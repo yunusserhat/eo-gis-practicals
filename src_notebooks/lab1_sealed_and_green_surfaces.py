@@ -13,6 +13,8 @@
 # %% [markdown]
 # # Lab 1. Sealed and green surfaces around Stirling from Sentinel-1 and Sentinel-2
 #
+# [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yunusserhat/eo-gis-practicals/blob/main/notebooks/lab1_sealed_and_green_surfaces.ipynb)
+#
 # In this practical you will map sealed surfaces, green space and water around Stirling from free satellite data.
 # You will combine optical images from Sentinel-2 with radar images from Sentinel-1, train a random forest classifier
 # and then use a GIS overlay to ask how green the town's parks and playing fields look from space.
@@ -28,8 +30,9 @@
 #
 # **Level and time.** Honours (SCQF level 10) or MSc (SCQF level 11), about two hours.
 #
-# **What you need.** A Python environment built from `requirements.txt`. No accounts or keys are needed. The data
-# come from the Microsoft Planetary Computer and Ordnance Survey and take about two minutes to download.
+# **What you need.** A Python environment built from `requirements.txt`, or Google Colab with a Google account. No
+# other accounts or keys are needed. The data come from the Microsoft Planetary Computer and Ordnance Survey and take
+# about two minutes to download.
 #
 # **How the lab works.** Each section follows five steps.
 # - **Predict.** Before you run a cell, write down what you expect to see.
@@ -38,9 +41,22 @@
 # - **Modify.** Change one thing and run it again.
 # - **Make.** At the end you apply the workflow to a new place on your own.
 
+# %% [markdown]
+# **Running on Google Colab?** The next cell installs the few packages that Colab lacks, which takes about a minute.
+# On your own computer it does nothing.
+
 # %%
 # Copyright (C) 2026 Yunus Serhat Bıçakçı
 # SPDX-License-Identifier: GPL-3.0-or-later
+import subprocess
+import sys
+
+IN_COLAB = "google.colab" in sys.modules
+if IN_COLAB:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pystac-client", "planetary-computer",
+                    "odc-stac", "rioxarray", "pyogrio"], check=True)
+
+# %%
 import warnings
 import urllib.request
 import zipfile
@@ -66,8 +82,9 @@ from sklearn.metrics import accuracy_score, f1_score, ConfusionMatrixDisplay
 # Medians over cloudy pixels produce empty slices. These warnings are expected and safe to ignore.
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-DATA = Path("../data")
-FIGURES = Path("../figures")
+ROOT = Path.cwd() if IN_COLAB else Path("..")  # on Colab, files go into the session folder
+DATA = ROOT / "data"
+FIGURES = ROOT / "figures"
 DATA.mkdir(exist_ok=True)
 FIGURES.mkdir(exist_ok=True)
 

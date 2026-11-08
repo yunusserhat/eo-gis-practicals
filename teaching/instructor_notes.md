@@ -10,6 +10,9 @@ or remote sensing module at Honours level (SCQF level 10) or a master's module (
   optional extension.
 - If the network in the room is slow, run Lab 1 in advance and give students a copy of the `data/` folder. Lab 1 then
   only needs the satellite search and loading cells to reach the Planetary Computer.
+- Google Colab is an alternative when students cannot install software. Each notebook opens from its badge in the
+  README, installs its own packages and runs unchanged. Colab needs a Google account, so check your institution's
+  policy before you require it.
 - Students do not need any accounts. The optional AlphaEarth section in Lab 2 needs a Google Earth Engine account and
   a Cloud project, so it suits a demonstration or an MSc extension.
 - Ask students to bring a notebook or a sheet for their predictions. Writing the prediction down is what makes the

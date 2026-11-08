@@ -13,6 +13,8 @@
 # %% [markdown]
 # # Lab 2. Why random splits flatter your map
 #
+# [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yunusserhat/eo-gis-practicals/blob/main/notebooks/lab2_why_random_splits_flatter_your_map.ipynb)
+#
 # In Lab 1 you trained a classifier and tested it on a random 30% of your training pixels. The accuracy looked
 # excellent. In this practical you will find out how much of that accuracy is real.
 #
@@ -27,13 +29,27 @@
 # 3. interpret the gap between random and spatial accuracy estimates,
 # 4. test whether errors cluster in space with Moran's I.
 #
-# **Level and time.** Honours (SCQF level 10) or MSc (SCQF level 11), about two hours. Run Lab 1 first, because this
-# lab reuses its training pixels.
+# **Level and time.** Honours (SCQF level 10) or MSc (SCQF level 11), about two hours. The lab reuses the training
+# pixels from Lab 1. If you have not run Lab 1 in this session, for example on Google Colab, the first code cells
+# download the saved Lab 1 outputs from the repository.
+
+# %% [markdown]
+# **Running on Google Colab?** The next cell installs the few packages that Colab lacks, which takes about a minute.
+# On your own computer it does nothing.
 
 # %%
 # Copyright (C) 2026 Yunus Serhat Bıçakçı
 # SPDX-License-Identifier: GPL-3.0-or-later
+import subprocess
+import sys
+
+IN_COLAB = "google.colab" in sys.modules
+if IN_COLAB:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "libpysal", "esda", "h3", "pyogrio"], check=True)
+
+# %%
 import os
+import urllib.request
 import warnings
 from pathlib import Path
 
@@ -54,10 +70,20 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # Within each 5 by 5 square, a pixel's nearest neighbours all lie in the same square. libpysal warns that the
 # neighbour graph falls apart into one piece per square. That is the point of section 2, so the warning is silenced.
 warnings.filterwarnings("ignore", message="The weights matrix is not fully connected")
-DATA = Path("../data")
-FIGURES = Path("../figures")
+ROOT = Path.cwd() if IN_COLAB else Path("..")  # on Colab, files go into the session folder
+DATA = ROOT / "data"
+FIGURES = ROOT / "figures"
+DATA.mkdir(exist_ok=True)
+FIGURES.mkdir(exist_ok=True)
 FEATURES = ["B02", "B03", "B04", "B08", "B11", "B12", "NDVI", "NDBI", "MNDWI", "VV_dB", "VH_dB"]
 CLASSES = {1: "sealed", 2: "green", 3: "water"}
+
+# Without a local Lab 1 run, for example on Colab, fetch the saved Lab 1 outputs from the repository.
+LAB1_OUTPUTS = "https://raw.githubusercontent.com/yunusserhat/eo-gis-practicals/main/lab1_outputs/"
+for name in ["lab1_training_pixels.csv", "training_polygons.gpkg"]:
+    if not (DATA / name).exists():
+        print(f"{name} not found locally, downloading the saved Lab 1 output")
+        urllib.request.urlretrieve(LAB1_OUTPUTS + name, DATA / name)
 
 train = pd.read_csv(DATA / "lab1_training_pixels.csv")
 polygons = gpd.read_file(DATA / "training_polygons.gpkg", layer="training_polygons")
@@ -302,7 +328,8 @@ squares.groupby("class")["error_rate"].mean().round(3).to_frame("mean error rate
 # block test.
 #
 # This section needs a free Google Earth Engine account and a Cloud project. Set the environment variable
-# `EE_PROJECT` to your project before starting Jupyter. Without it the section is skipped.
+# `EE_PROJECT` to your project before starting Jupyter. On Colab, run `os.environ["EE_PROJECT"] = "your-project"` in
+# a new cell first, and Colab will ask you to authorise Earth Engine. Without a project the section is skipped.
 
 # %%
 EE_PROJECT = os.environ.get("EE_PROJECT")
@@ -311,6 +338,8 @@ if not EE_PROJECT:
 else:
     import ee
 
+    if IN_COLAB:
+        ee.Authenticate()
     ee.Initialize(project=EE_PROJECT)
     lon, lat = train.lon.values, train.lat.values
     embedding = (ee.ImageCollection("GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL")
